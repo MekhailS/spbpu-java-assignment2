@@ -97,7 +97,10 @@ class Manager extends AConfigurable {
             code = configure(cfgStream, logger);
 
             if (code != RC.CODE_SUCCESS)
+            {
+                Log.logError(logger, code);
                 return code;
+            }
 
             if (!isEverythingAvailable())
                 return RC.CODE_FAILED_PIPELINE_CONSTRUCTION;
@@ -105,8 +108,8 @@ class Manager extends AConfigurable {
             code = linkEverything();
         }
         catch (FileNotFoundException e) {
-            logger.log(Level.SEVERE, Log.ERROR.CONFIG.name);
             code = RC.CODE_FAILED_PIPELINE_CONSTRUCTION;
+            Log.logError(logger, code);
         }
         finally {
             return code;

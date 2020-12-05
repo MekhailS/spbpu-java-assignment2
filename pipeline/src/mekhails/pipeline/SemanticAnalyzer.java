@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import ru.spbstu.pipeline.IExecutor;
 import ru.spbstu.pipeline.IReader;
 import ru.spbstu.pipeline.IWriter;
+import ru.spbstu.pipeline.RC;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -45,9 +46,12 @@ class SemanticAnalyzer {
                 case FILE_OUT:
                 {
                     String outFilename = paramAsString.get(0);
-                    File inFile = new File(outFilename);
-                    if (!inFile.canWrite())
+                    File outFile = new File(outFilename);
+                    if (!outFile.canWrite())
+                    {
+                        Log.logError(logger, RC.CODE_FAILED_TO_WRITE);
                         break;
+                    }
 
                     res = outFilename;
                     break;
@@ -58,7 +62,10 @@ class SemanticAnalyzer {
                     String inFilename = paramAsString.get(0);
                     File inFile = new File(inFilename);
                     if (!inFile.canRead())
+                    {
+                        Log.logError(logger, RC.CODE_FAILED_TO_READ);
                         break;
+                    }
 
                     res = inFilename;
                     break;
@@ -91,7 +98,10 @@ class SemanticAnalyzer {
                     String cfgFilename = tokens[1].trim();
                     File cfgFile = new File(cfgFilename);
                     if (!cfgFile.canWrite())
+                    {
+                        Log.logError(logger, RC.CODE_FAILED_TO_READ);
                         break;
+                    }
 
                     String className = tokens[0].trim();
                     Class<?> writerClass = Class.forName(className);
@@ -109,7 +119,10 @@ class SemanticAnalyzer {
                     String cfgFilename = tokens[1].trim();
                     File cfgFile = new File(cfgFilename);
                     if (!cfgFile.canRead())
+                    {
+                        Log.logError(logger, RC.CODE_FAILED_TO_READ);
                         break;
+                    }
 
                     String className = tokens[0].trim();
                     Class<?> readerClass = Class.forName(className);
@@ -138,6 +151,7 @@ class SemanticAnalyzer {
 
                         if (!cfgFile.canRead())
                         {
+                            Log.logError(logger, RC.CODE_FAILED_TO_READ);
                             resArr = null;
                             break;
                         }
