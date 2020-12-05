@@ -7,6 +7,7 @@ import ru.spbstu.pipeline.IWriter;
 import ru.spbstu.pipeline.RC;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -47,12 +48,11 @@ class SemanticAnalyzer {
                 {
                     String outFilename = paramAsString.get(0);
                     File outFile = new File(outFilename);
-                    if (!outFile.canWrite())
+                    if (!outFile.canWrite() && !outFile.createNewFile())
                     {
                         Log.logError(logger, RC.CODE_FAILED_TO_WRITE);
                         break;
                     }
-
                     res = outFilename;
                     break;
                 }
@@ -164,8 +164,7 @@ class SemanticAnalyzer {
             }
             return res;
         }
-        catch (ClassNotFoundException | NoSuchMethodException
-                | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+        catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | IOException e) {
             logger.log(Level.SEVERE, Log.ERROR.CONFIG.name);
         }
         return null;

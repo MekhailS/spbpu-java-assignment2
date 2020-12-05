@@ -1,8 +1,8 @@
 # line which starts with '#' is a comment
 
 # input and output
-input file: src\in\in_2kk.txt
-output file: src\out\out_2kk.txt
+input file: resources\in\in_2kk.txt
+output file: resources\out\out_2kk.txt
 
 # viktor's reader
 reader: com.Viktor.main.Reader ; configs\configs_workers_gerasimenko\readerConfig.txt
